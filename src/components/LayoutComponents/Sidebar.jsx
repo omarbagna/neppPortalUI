@@ -15,8 +15,8 @@ import { SideButtons } from '../data';
 
 const Sidebar = () => {
 	return (
-		<div className="fixed z-50 top-0 left-0 bg-white w-screen h-14 sm:h-20 lg:h-screen lg:w-36 shadow-md sm:p-5 flex lg:flex-col justify-center lg:justify-start items-center gap-5 sm:gap-8 lg:gap-16">
-			<Link to="/">
+		<div className="fixed z-50 bottom-0 left-0 bg-white w-screen h-14 sm:h-20 lg:h-screen lg:w-36 shadow-md sm:p-5 flex lg:flex-col justify-center lg:justify-start items-center gap-5 sm:gap-8 lg:gap-16">
+			<Link to="/" className="hidden lg:flex">
 				<img
 					src={Logo}
 					alt="nepp logo"

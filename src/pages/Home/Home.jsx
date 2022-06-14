@@ -9,11 +9,13 @@ const Home = () => {
 	return (
 		<div className="py-14 flex flex-col gap-20 justify-start items-start">
 			<div className="flex flex-col gap-3 justify-start items-start">
-				<p className="text-3xl font-extralight">Welcome,</p>
-				<Title size="text-9xl" title="Jimmy" />
+				<p className="text-base sm:text-xl md:text-2xl lg:text-3xl font-extralight">
+					Welcome,
+				</p>
+				<Title size="text-4xl md:text-6xl lg:text-9xl" title="Jimmy" />
 			</div>
 
-			<div className="flex gap-20">
+			<div className="flex flex-wrap gap-10 lg:gap-20">
 				{Widgets.map((widget) => (
 					<Widget
 						key={widget.id}
@@ -31,7 +33,7 @@ const Home = () => {
 			</div>
 
 			<div className="flex flex-col justify-start items-start gap-8">
-				<Title size="text-3xl" title="advertisement" />
+				<Title size="text-lg sm:text-xl md:text-3xl" title="advertisement" />
 				<div className="flex gap-14">
 					<Advert />
 				</div>
