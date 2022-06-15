@@ -6,8 +6,8 @@ import Cart from './Cart';
 
 const MainContent = () => {
 	return (
-		<div className="w-screen h-screen my-14 sm:my-20 lg:ml-36 lg:my-0 p-4 sm:p-8 lg:px-10 overflow-y-scroll">
-			<div className="fixed z-50 top-18 right-0 lg:top-0 lg:right-14 flex flex-col-reverse lg:flex-row justify-end items-center gap-5">
+		<div className="w-screen h-screen mt-4 mb-14 sm:mb-20 lg:ml-36 lg:my-0 p-4 sm:p-8 lg:px-10 overflow-y-scroll">
+			<div className="fixed z-50 top-0 right-4 lg:top-0 lg:right-14 flex  lg:flex-row justify-end items-center gap-5">
 				<Cart />
 				<LogoutBtn />
 			</div>
