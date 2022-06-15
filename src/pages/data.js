@@ -42,3 +42,43 @@ export const Stages = [
 		subtext: 'Preview Order',
 	},
 ];
+export const ProfileContact = [
+	{
+		id: 1,
+		title: 'Email:',
+		subtext: 'jimmy@email.com',
+	},
+	{
+		id: 2,
+		title: 'Phone:',
+		subtext: '0245123123',
+	},
+	{
+		id: 3,
+		title: 'GPS Address:',
+		subtext: 'GE-122-0984',
+	},
+	{
+		id: 4,
+		title: 'Home Address:',
+		subtext: 'No Data Found',
+	},
+];
+export const ProfileInsurance = [
+	{
+		id: 5,
+		title: 'Insurance Company:',
+		subtext: 'GAB HEALTH INSURANCE LIMITED',
+	},
+	{
+		id: 6,
+		title: 'Member No:',
+		subtext: 'GGAB000005-0',
+	},
+];
+
+export const bgImage = [
+	{
+		link: 'https://images.unsplash.com/photo-1620753018522-148bee0b3217?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80',
+	},
+];

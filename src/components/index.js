@@ -7,3 +7,4 @@ export { default as StageBtn } from './ReusableComponents/StageBtn';
 export { default as DefaultBtn } from './ReusableComponents/DefaultBtn';
 export { default as InputBox } from './ReusableComponents/InputBox';
 export { default as SubmitBtn } from './ReusableComponents/SubmitBtn';
+export { default as ProfileCard } from './ReusableComponents/ProfileCard';
