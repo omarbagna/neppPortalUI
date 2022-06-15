@@ -23,10 +23,10 @@ const Profile = () => {
 				</div>
 			</div>
 			<div className="relative h-full lg:h-screen w-screen z-20 py-14 flex flex-col gap-10 lg:gap-20 justify-start items-start mt-4 mb-8 sm:mb-20 lg:pl-44 lg:my-0 p-4 sm:p-8 lg:pr-16 ">
-				<div className="absolute left-8 -top-12 md:-top-20 lg:-top-16 md:left-1/2 md:-translate-x-1/2 lg:-translate-x-0">
+				<div className="absolute left-8 -top-14 md:-top-20 lg:-top-16 md:left-1/2 md:-translate-x-1/2 lg:-translate-x-0">
 					<div className="flex md:hidden">
 						<Avatar
-							sx={{ width: 60, height: 60, bgcolor: '#F67160' }}
+							sx={{ width: 80, height: 80, bgcolor: '#F67160' }}
 							alt="Remy Sharp"
 							src="https://media-exp2.licdn.com/dms/image/C4D03AQEq-1zU0TvR4A/profile-displayphoto-shrink_100_100/0/1654120070929?e=1660780800&v=beta&t=XN7OgtS1p7zzfvkNXkH3Ew1rdngfcfCy9ChapCUGjGk">
 							J
