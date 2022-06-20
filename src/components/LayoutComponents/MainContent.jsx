@@ -2,13 +2,18 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import Copyright from './Copyright';
 import LogoutBtn from './LogoutBtn';
+import CartIcon from './CartIcon';
 import Cart from './Cart';
 
+import { useStateContext } from '../../context/StateContext.js';
+
 const MainContent = () => {
+	const { showCart, setShowCart, totalQuantity } = useStateContext();
+
 	return (
 		<div className="w-screen h-full mb-20 lg:mb-0 lg:h-screen flex flex-col justify-start overflow-y-scroll">
 			<div className="fixed z-50 top-0 right-4 lg:top-0 lg:right-14 flex  lg:flex-row justify-end items-center gap-5">
-				<Cart />
+				<CartIcon onClick={() => setShowCart(true)} />
 				<LogoutBtn />
 			</div>
 
@@ -24,6 +29,8 @@ const MainContent = () => {
 			<div className="fixed z-50 hidden lg:flex lg:bottom-0 lg:right-14">
 				<Copyright />
 			</div>
+
+			{showCart && <Cart />}
 		</div>
 	);
 };
