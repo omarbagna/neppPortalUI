@@ -7,7 +7,7 @@ import { Widgets } from '../data';
 
 const Home = () => {
 	return (
-		<div className="py-14 flex flex-col gap-20 justify-start items-start mt-4 mb-14 sm:mb-20 lg:pl-44 lg:my-0 p-4 sm:p-8 lg:pr-16 ">
+		<div className="py-14 flex flex-col gap-20 justify-start items-start mt-4 mb-14 sm:mb-20 sm:mt-16 lg:pl-44 lg:my-0 p-4 sm:p-8 lg:pr-16 ">
 			<div className="flex flex-col gap-3 justify-start items-start">
 				<p className="text-base sm:text-xl md:text-2xl lg:text-3xl font-extralight">
 					Welcome,

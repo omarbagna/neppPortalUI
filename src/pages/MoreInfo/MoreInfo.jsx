@@ -7,7 +7,7 @@ import { InputBox, SubmitBtn, Title } from '../../components';
 
 const MoreInfo = () => {
 	return (
-		<div className="py-14 w-full h-full flex flex-col lg:flex-row gap-6 lg:gap-16 justify-center items-center mt-4 mb-14 sm:mb-20 lg:pl-44 lg:my-0 p-4 sm:p-8 lg:pr-16 ">
+		<div className="py-14 w-full h-full flex flex-col lg:flex-row gap-6 lg:gap-16 justify-center items-center mt-4 mb-14 sm:mb-20 sm:mt-16 lg:pl-44 lg:my-0 p-4 sm:p-8 lg:pr-16 ">
 			<div className=" bg-white flex flex-col gap-6 rounded-md p-4 lg:p-6 w-full h-fit justify-start items-start">
 				<Title size="text-xl lg:text-3xl" title="More Info" />
 				<p className="text-gray opacity-80 font-extralight text-sm md:text-base lg:text-lg">

@@ -22,7 +22,7 @@ const Profile = () => {
 					</p>
 				</div>
 			</div>
-			<div className="relative h-full lg:h-screen w-screen z-20 py-14 flex flex-col gap-10 lg:gap-20 justify-start items-start mt-4 mb-8 sm:mb-20 lg:pl-44 lg:my-0 p-4 sm:p-8 lg:pr-16 ">
+			<div className="relative h-full lg:h-screen w-screen z-20 py-14 flex flex-col gap-10 lg:gap-20 justify-start items-start mt-4 mb-8 sm:mb-20  lg:pl-44 lg:my-0 p-4 sm:p-8 lg:pr-16 ">
 				<div className="absolute left-8 -top-14 md:-top-20 lg:-top-16 md:left-1/2 md:-translate-x-1/2 lg:-translate-x-0">
 					<div className="flex md:hidden">
 						<Avatar

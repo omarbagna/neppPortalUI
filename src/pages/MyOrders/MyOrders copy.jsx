@@ -272,7 +272,7 @@ export default function MyOrders() {
 		page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
 	return (
-		<div className="py-14 flex flex-col gap-20 justify-start items-start mt-4 mb-14 sm:mb-20 sm:mt-16 lg:pl-44 lg:my-0 p-4 sm:p-8 lg:pr-16 lg:pt-28">
+		<div className="py-14 flex flex-col gap-20 justify-start items-start mt-4 mb-14 sm:mb-20 lg:pl-44 lg:my-0 p-4 sm:p-8 lg:pr-16 lg:pt-28">
 			<Box sx={{ width: '100%' }}>
 				<Paper sx={{ width: '100%', mb: 2 }}>
 					<EnhancedTableToolbar numSelected={selected.length} />
