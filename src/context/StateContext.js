@@ -65,6 +65,8 @@ export const StateContext = ({ children }) => {
 		foundProduct = cartItems.find((item) => item._id === id);
 		index = cartItems.findIndex((product) => product._id === id);
 
+		console.log(index);
+
 		const updatedCartItems = cartItems.filter((item) => item._id !== id);
 
 		if (value === 'inc') {

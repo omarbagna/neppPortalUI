@@ -8,7 +8,7 @@ import Cart from './Cart';
 import { useStateContext } from '../../context/StateContext.js';
 
 const MainContent = () => {
-	const { showCart, setShowCart, totalQuantity } = useStateContext();
+	const { showCart, setShowCart } = useStateContext();
 
 	return (
 		<div className="w-screen h-full mb-20 lg:mb-0 lg:h-screen flex flex-col justify-start overflow-y-scroll">

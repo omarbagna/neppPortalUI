@@ -1,5 +1,4 @@
 import React, { useRef } from 'react';
-import { Link } from 'react-router-dom';
 
 import {
 	AiOutlineMinus,
@@ -17,7 +16,7 @@ const Cart = () => {
 	const cartRef = useRef();
 	const {
 		totalPrice,
-		totalQuantity,
+
 		cartItems,
 		setShowCart,
 		toggleCartItemQuantity,
