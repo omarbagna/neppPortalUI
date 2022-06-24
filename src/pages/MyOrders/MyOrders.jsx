@@ -5,9 +5,13 @@ import { orderFilter, tableData } from '../data';
 export default function MyOrders() {
 	const [choice, setChoice] = useState('');
 
-	const columns = [
-		{ field: 'id', header: 'ID' },
+	const columnsDesktop = [
 		{ field: 'order', header: 'Order #' },
+		{ field: 'status', header: 'Status' },
+		{ field: 'date', header: 'Date' },
+	];
+	const columnsMobile = [
+		{ field: 'exert', header: 'Order' },
 		{ field: 'status', header: 'Status' },
 		{ field: 'date', header: 'Date' },
 	];
@@ -30,8 +34,12 @@ export default function MyOrders() {
 					))}
 				</select>
 			</div>
-
-			<Table data={tableData} columns={columns} filter={choice} />
+			<div className="w-full block lg:hidden">
+				<Table data={tableData} columns={columnsMobile} filter={choice} />
+			</div>
+			<div className="w-full hidden lg:block">
+				<Table data={tableData} columns={columnsDesktop} filter={choice} />
+			</div>
 		</div>
 	);
 }
