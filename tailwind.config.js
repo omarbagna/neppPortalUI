@@ -11,6 +11,7 @@ module.exports = {
 			bgOne: '#F67160',
 			bgTwo: '#84DC15',
 			bgThree: '#F4CA5D',
+			bgFour: '#9747FF',
 		},
 		extend: {
 			keyframes: {

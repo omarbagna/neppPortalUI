@@ -117,3 +117,75 @@ export const drugs = [
 		title: 'Drug 3',
 	},
 ];
+
+export const tableData = [
+	{
+		id: 1,
+		status: 'delivered',
+		exert: 'Paracetamol, Malaria Drugs, Cancer Medication ...',
+		date: '07/11/2020',
+		order: '87349585892118',
+	},
+	{
+		id: 2,
+		status: 'pending',
+		exert: 'Paracetamol, Malaria Drugs, Cancer Medication ...',
+		date: '07/11/2020',
+		order: '58418278790810',
+	},
+	{
+		id: 3,
+		status: 'processing',
+		exert: 'Paracetamol, Malaria Drugs, Cancer Medication ...',
+		date: '07/10/2020',
+		order: '81534454080477',
+	},
+	{
+		id: 4,
+		status: 'delivered',
+		exert: 'Paracetamol, Malaria Drugs, Cancer Medication ...',
+		date: '07/09/2020',
+		order: '20452221703743',
+	},
+	{
+		id: 5,
+		status: 'declined',
+		exert: 'Paracetamol, Malaria Drugs, Cancer Medication ...',
+		date: '07/07/2020',
+		order: '22906126785176',
+	},
+	{
+		id: 6,
+		status: 'processing',
+		exert: 'Paracetamol, Malaria Drugs, Cancer Medication ...',
+		date: '07/07/2020',
+		order: '87574505851064',
+	},
+];
+export const orderFilter = [
+	{
+		id: 1,
+		status: '',
+		value: 'ALL ORDERS',
+	},
+	{
+		id: 2,
+		status: 'delivered',
+		value: 'DELIVERED',
+	},
+	{
+		id: 3,
+		status: 'pending',
+		value: 'PENDING',
+	},
+	{
+		id: 4,
+		status: 'processing',
+		value: 'PROCESSING',
+	},
+	{
+		id: 5,
+		status: 'declined',
+		value: 'DECLINED',
+	},
+];
