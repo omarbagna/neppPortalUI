@@ -6,7 +6,7 @@ export const Widgets = [
 	},
 	{
 		id: 2,
-		link: 'add-new',
+		link: 'add-new/drug',
 		title: 'check prices',
 	},
 	{
@@ -91,30 +91,45 @@ export const bgImage = [
 export const pharmacies = [
 	{
 		id: 1,
-		title: 'Pharmacy 1',
+		title: 'The Trust Pharmacy',
+		status: 'available',
+		region: 'accra',
 	},
 	{
 		id: 2,
-		title: 'Pharmacy 2',
+		title: 'Top Herbal Pharmacy',
+		status: 'available',
+		region: 'central',
 	},
 	{
 		id: 3,
-		title: 'Pharmacy 3',
+		title: 'We The People Pharmacy',
+		status: 'unavailable',
+		region: 'ashanti',
 	},
 ];
 
 export const drugs = [
 	{
 		id: 1,
-		title: 'Drug 1',
+		sn: '#',
+		title: 'paracetamol',
+		price: 20,
+		quantity: 1,
 	},
 	{
 		id: 2,
-		title: 'Drug 2',
+		sn: '#',
+		title: 'amozaslim',
+		price: 50,
+		quantity: 1,
 	},
 	{
 		id: 3,
-		title: 'Drug 3',
+		sn: '#',
+		title: 'diabetes medicine',
+		price: 120,
+		quantity: 1,
 	},
 ];
 
@@ -162,30 +177,67 @@ export const tableData = [
 		order: '87574505851064',
 	},
 ];
+
 export const orderFilter = [
 	{
 		id: 1,
-		status: '',
-		value: 'ALL ORDERS',
+		value: '',
+		title: 'ALL ORDERS',
 	},
 	{
 		id: 2,
-		status: 'delivered',
-		value: 'DELIVERED',
+		value: 'delivered',
+		title: 'DELIVERED',
 	},
 	{
 		id: 3,
-		status: 'pending',
-		value: 'PENDING',
+		value: 'pending',
+		title: 'PENDING',
 	},
 	{
 		id: 4,
-		status: 'processing',
-		value: 'PROCESSING',
+		value: 'processing',
+		title: 'PROCESSING',
 	},
 	{
 		id: 5,
-		status: 'declined',
-		value: 'DECLINED',
+		value: 'declined',
+		title: 'DECLINED',
+	},
+];
+
+export const regionFilter = [
+	{
+		id: 1,
+		value: '',
+		title: 'None',
+	},
+	{
+		id: 2,
+		value: 'accra',
+		title: 'Greater Accra',
+	},
+	{
+		id: 3,
+		value: 'ashanti',
+		title: 'Ashanti',
+	},
+	{
+		id: 4,
+		value: 'central',
+		title: 'Central',
+	},
+];
+
+export const deliveryOptions = [
+	{
+		id: 1,
+		value: 'pick-up',
+		title: 'Pick-up',
+	},
+	{
+		id: 2,
+		value: 'delivery',
+		title: 'Home Delivery',
 	},
 ];

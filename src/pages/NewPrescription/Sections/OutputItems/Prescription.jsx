@@ -65,7 +65,10 @@ const Prescription = () => {
 					<SubmitBtn
 						name="Back"
 						type="back"
-						onClick={() => navigate('/add-new')}
+						onClick={(e) => {
+							e.preventDefault();
+							navigate(-1);
+						}}
 					/>
 					<SubmitBtn name="Next" />
 				</div>

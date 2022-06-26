@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useState } from 'react';
 import { toast } from 'react-hot-toast';
+import { CgOpenCollective } from 'react-icons/cg';
+import { drugs } from '../pages/data';
 
 const Context = createContext();
 
@@ -9,6 +11,105 @@ export const StateContext = ({ children }) => {
 	const [totalPrice, setTotalPrice] = useState(0);
 	const [totalQuantity, setTotalQuantity] = useState(0);
 	const [qty, setQty] = useState(1);
+	const [value, setValue] = useState(null);
+	const [selectedPharmacy, setSelectedPharmacy] = useState('None');
+	const [selectedDrugs, setSelectedDrugs] = useState([]);
+
+	const manipulateTable = (searchTerm) => {
+		let updateTable;
+
+		if (selectedDrugs.length > 0) {
+			updateTable = selectedDrugs.find((item) => {
+				if (searchTerm === item.title) {
+					return true;
+				} else {
+					return false;
+				}
+			});
+		} else {
+			updateTable = false;
+		}
+
+		if (!updateTable) {
+			let drugFound;
+
+			let foundDrug = drugs.find((item) => {
+				if (searchTerm === item.title) {
+					drugFound = true;
+					return item;
+				} else {
+					drugFound = false;
+					return null;
+				}
+			});
+
+			let updatedArray;
+
+			if (drugFound) {
+				updatedArray = [...selectedDrugs, foundDrug];
+			} else if (!drugFound) {
+				updatedArray = [...selectedDrugs];
+			}
+
+			setTotalPrice(totalPrice + foundDrug.price);
+			setSelectedDrugs(updatedArray);
+
+			toast.success(
+				`${
+					foundDrug.quantity
+				} ${foundDrug.title.toLocaleUpperCase()} added to list.`
+			);
+		} else {
+			const updatedDrugs = selectedDrugs.findIndex((selectedDrug) => {
+				if (selectedDrug.title === searchTerm) {
+					return selectedDrug.id;
+				} else {
+					return null;
+				}
+			});
+
+			let newArray = [...selectedDrugs];
+
+			newArray[updatedDrugs].quantity = newArray[updatedDrugs].quantity + 1;
+
+			setTotalPrice(totalPrice + newArray[updatedDrugs].price);
+			//setTotalQuantity((prevTotalQuantity) => prevTotalQuantity + 1);
+
+			//console.log('Index of updated Drug is', updatedDrugs);
+
+			setSelectedDrugs(newArray);
+
+			toast.success(
+				`${newArray[updatedDrugs].quantity} ${newArray[
+					updatedDrugs
+				].title.toLocaleUpperCase()} added to list.`
+			);
+		}
+
+		// our api to fetch the search result
+		setValue(null);
+	};
+	console.log(totalPrice);
+
+	const onSearch = (searchTerm) => {
+		if (searchTerm !== null) {
+			setValue(searchTerm);
+			manipulateTable(searchTerm);
+		} else {
+			setValue(null);
+		}
+	};
+
+	const choosePharmacy = (selection) => {
+		if (selection.status === 'available') {
+			setSelectedPharmacy(selection.title);
+		} else if (selection.status === 'unavailable') {
+			setSelectedPharmacy('None');
+			toast.error(
+				`${selection.title} is unavailable at the moment. Choose another!`
+			);
+		}
+	};
 
 	let foundProduct;
 	let index;
@@ -41,6 +142,37 @@ export const StateContext = ({ children }) => {
 		}
 
 		toast.success(`${qty} ${product.name} added to cart.`);
+	};
+
+	const onRemoveFromTable = (drug) => {
+		const updatedDrugs = selectedDrugs.findIndex((selectedDrug) => {
+			if (selectedDrug.id === drug.id) {
+				return selectedDrug.id;
+			} else {
+				return null;
+			}
+		});
+
+		let newArray = [...selectedDrugs];
+
+		if (newArray[updatedDrugs].quantity <= 1) {
+			const updatedDrugsSelected = selectedDrugs.filter(
+				(item) => item.id !== drug.id
+			);
+
+			setTotalPrice(totalPrice - selectedDrugs[updatedDrugs].price);
+
+			newArray = updatedDrugsSelected;
+		} else {
+			newArray[updatedDrugs].quantity = newArray[updatedDrugs].quantity - 1;
+			setTotalPrice(totalPrice - selectedDrugs[updatedDrugs].price);
+		}
+
+		//console.log('Index of updated Drug is', updatedDrugs);
+
+		setSelectedDrugs(newArray);
+
+		toast.error(`1 ${drug.title.toLocaleUpperCase()} removed from list.`);
 	};
 
 	const onRemove = (product) => {
@@ -105,6 +237,12 @@ export const StateContext = ({ children }) => {
 	return (
 		<Context.Provider
 			value={{
+				onSearch,
+				value,
+				setValue,
+				selectedPharmacy,
+				choosePharmacy,
+				selectedDrugs,
 				showCart,
 				setShowCart,
 				cartItems,
@@ -116,6 +254,7 @@ export const StateContext = ({ children }) => {
 				onAdd,
 				toggleCartItemQuantity,
 				onRemove,
+				onRemoveFromTable,
 			}}>
 			{children}
 		</Context.Provider>

@@ -8,12 +8,12 @@ import Cart from './Cart';
 import { useStateContext } from '../../context/StateContext.js';
 
 const MainContent = () => {
-	const { showCart, setShowCart } = useStateContext();
+	const { showCart, setShowCart, totalQuantity } = useStateContext();
 
 	return (
 		<div className="w-screen h-full mb-20 lg:mb-0 lg:h-screen flex flex-col justify-start overflow-y-scroll">
 			<div className="fixed z-50 top-0 right-4 lg:top-0 lg:right-14 flex  lg:flex-row justify-end items-center gap-5">
-				<CartIcon onClick={() => setShowCart(true)} />
+				<CartIcon onClick={() => setShowCart(true)} quantity={totalQuantity} />
 				<LogoutBtn />
 			</div>
 

@@ -1,15 +1,33 @@
-import { SelectElement } from 'react-hook-form-mui';
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 
-const SelectOptions = ({ label, options, required, name }) => {
+const SelectOptions = ({
+	label,
+	labelId,
+	options,
+	required,
+	name,
+	value,
+	onChange,
+}) => {
 	return (
-		<SelectElement
-			label={label}
-			name={name}
-			variant="standard"
-			required={required}
-			className="w-full"
-			options={options}
-		/>
+		<FormControl fullWidth>
+			<InputLabel id={labelId}>{label}</InputLabel>
+			<Select
+				labelId={labelId}
+				id={name}
+				label={label}
+				value={value}
+				onChange={onChange}
+				variant="standard"
+				required={required}
+				className="w-full">
+				{options.map((option) => (
+					<MenuItem key={option.id} value={option.value}>
+						{option.title}
+					</MenuItem>
+				))}
+			</Select>
+		</FormControl>
 	);
 };
 
