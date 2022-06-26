@@ -1,10 +1,8 @@
-import { TextField } from '@mui/material';
-import React, { useState } from 'react';
+import React from 'react';
 import { FormContainer } from 'react-hook-form-mui';
 import { useNavigate } from 'react-router-dom';
-import { SelectOptions, SubmitBtn, Table, Title } from '../../../../components';
+import { SubmitBtn, Title } from '../../../../components';
 import { useStateContext } from '../../../../context/StateContext';
-import { pharmacies, regionFilter } from '../../../data';
 
 const OrderSummary = () => {
 	const { selectedPharmacy, setShowCart } = useStateContext();

@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useState } from 'react';
 import { toast } from 'react-hot-toast';
-import { CgOpenCollective } from 'react-icons/cg';
 import { drugs } from '../pages/data';
 
 const Context = createContext();
@@ -89,7 +88,6 @@ export const StateContext = ({ children }) => {
 		// our api to fetch the search result
 		setValue(null);
 	};
-	console.log(totalPrice);
 
 	const onSearch = (searchTerm) => {
 		if (searchTerm !== null) {
