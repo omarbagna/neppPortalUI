@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { FormContainer } from 'react-hook-form-mui';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
@@ -32,21 +32,22 @@ const Delivery = () => {
 	const ZOOM_LEVEL = 10;
 	const mapRef = useRef();
 
-	const { selectedPharmacy } = useStateContext();
-	const [option, setOption] = useState('');
+	const { selectedPharmacy, deliveryOption, setDeliveryOption, createSummary } =
+		useStateContext();
 
 	const handleChange = (event) => {
-		setOption(event.target.value);
+		setDeliveryOption(event.target.value);
 	};
 
 	const navigate = useNavigate();
 
 	const handleNavigate = () => {
+		createSummary();
 		navigate(`/add-new/order-summary`);
 	};
 
 	const handleSubmit = () => {
-		if (option === '') {
+		if (deliveryOption === '') {
 			return toast.error(`Please choose a delivery option to continue`);
 		} else {
 			handleNavigate();
@@ -72,16 +73,16 @@ const Delivery = () => {
 						label="Choose Delivery Option"
 						labelId="delivery-option"
 						onChange={handleChange}
-						value={option}
+						value={deliveryOption}
 						required={false}
 						name="region"
 						options={deliveryOptions}
 					/>
 				</div>
 
-				{option === 'pick-up' ? (
+				{deliveryOption === 'pick-up' ? (
 					<div className="w-full flex flex-col justify-center items-start gap-5">
-						<Title size="text-xl sm:text-2xl" title={option} />
+						<Title size="text-xl sm:text-2xl" title={deliveryOption} />
 						<p className="w-full font-light text-base sm:text-lg lg:text-xl">
 							You'll receive an SMS with instructions on how to collect your
 							package at {selectedPharmacy} when order is completed.
@@ -90,10 +91,10 @@ const Delivery = () => {
 							Click Next to Continue
 						</p>
 					</div>
-				) : option === 'delivery' ? (
+				) : deliveryOption === 'delivery' ? (
 					<div className="flex flex-col gap-7">
 						<div className="w-full">
-							<Title size="text-xl sm:text-2xl" title={option} />
+							<Title size="text-xl sm:text-2xl" title={deliveryOption} />
 						</div>
 
 						<div className="transition-all duration-200 ease-in w-full h-96 rounded-md overflow-hidden shadow-md hover:shadow-lg">

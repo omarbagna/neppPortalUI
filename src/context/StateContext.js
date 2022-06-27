@@ -13,6 +13,15 @@ export const StateContext = ({ children }) => {
 	const [value, setValue] = useState(null);
 	const [selectedPharmacy, setSelectedPharmacy] = useState('None');
 	const [selectedDrugs, setSelectedDrugs] = useState([]);
+	const [deliveryOption, setDeliveryOption] = useState('');
+
+	const [orderSummary, setOrderSummary] = useState({
+		orders: [],
+		pharmacy: '',
+		deliveryOption: '',
+		totalItems: '',
+		totalPrice: '',
+	});
 
 	const manipulateTable = (searchTerm) => {
 		let updateTable;
@@ -50,6 +59,7 @@ export const StateContext = ({ children }) => {
 				updatedArray = [...selectedDrugs];
 			}
 
+			setTotalQuantity(totalQuantity + 1);
 			setTotalPrice(totalPrice + foundDrug.price);
 			setSelectedDrugs(updatedArray);
 
@@ -71,6 +81,7 @@ export const StateContext = ({ children }) => {
 
 			newArray[updatedDrugs].quantity = newArray[updatedDrugs].quantity + 1;
 
+			setTotalQuantity(totalQuantity + 1);
 			setTotalPrice(totalPrice + newArray[updatedDrugs].price);
 			//setTotalQuantity((prevTotalQuantity) => prevTotalQuantity + 1);
 
@@ -98,6 +109,39 @@ export const StateContext = ({ children }) => {
 		}
 	};
 
+	const onRemoveFromTable = (drug) => {
+		const updatedDrugs = selectedDrugs.findIndex((selectedDrug) => {
+			if (selectedDrug.id === drug.id) {
+				return selectedDrug.id;
+			} else {
+				return null;
+			}
+		});
+
+		let newArray = [...selectedDrugs];
+
+		if (newArray[updatedDrugs].quantity <= 1) {
+			const updatedDrugsSelected = selectedDrugs.filter(
+				(item) => item.id !== drug.id
+			);
+
+			setTotalQuantity(totalQuantity - 1);
+			setTotalPrice(totalPrice - selectedDrugs[updatedDrugs].price);
+
+			newArray = updatedDrugsSelected;
+		} else {
+			newArray[updatedDrugs].quantity = newArray[updatedDrugs].quantity - 1;
+			setTotalQuantity(totalQuantity - 1);
+			setTotalPrice(totalPrice - selectedDrugs[updatedDrugs].price);
+		}
+
+		//console.log('Index of updated Drug is', updatedDrugs);
+
+		setSelectedDrugs(newArray);
+
+		toast.error(`1 ${drug.title.toLocaleUpperCase()} removed from list.`);
+	};
+
 	const choosePharmacy = (selection) => {
 		if (selection.status === 'available') {
 			setSelectedPharmacy(selection.title);
@@ -107,6 +151,17 @@ export const StateContext = ({ children }) => {
 				`${selection.title} is unavailable at the moment. Choose another!`
 			);
 		}
+	};
+
+	const createSummary = () => {
+		setOrderSummary({
+			...orderSummary,
+			orders: selectedDrugs,
+			pharmacy: selectedPharmacy,
+			deliveryOption: deliveryOption,
+			totalItems: totalQuantity,
+			totalPrice: totalPrice,
+		});
 	};
 
 	let foundProduct;
@@ -138,37 +193,6 @@ export const StateContext = ({ children }) => {
 		}
 
 		toast.success(`${qty} ${product.name} added to cart.`);
-	};
-
-	const onRemoveFromTable = (drug) => {
-		const updatedDrugs = selectedDrugs.findIndex((selectedDrug) => {
-			if (selectedDrug.id === drug.id) {
-				return selectedDrug.id;
-			} else {
-				return null;
-			}
-		});
-
-		let newArray = [...selectedDrugs];
-
-		if (newArray[updatedDrugs].quantity <= 1) {
-			const updatedDrugsSelected = selectedDrugs.filter(
-				(item) => item.id !== drug.id
-			);
-
-			setTotalPrice(totalPrice - selectedDrugs[updatedDrugs].price);
-
-			newArray = updatedDrugsSelected;
-		} else {
-			newArray[updatedDrugs].quantity = newArray[updatedDrugs].quantity - 1;
-			setTotalPrice(totalPrice - selectedDrugs[updatedDrugs].price);
-		}
-
-		//console.log('Index of updated Drug is', updatedDrugs);
-
-		setSelectedDrugs(newArray);
-
-		toast.error(`1 ${drug.title.toLocaleUpperCase()} removed from list.`);
 	};
 
 	const onRemove = (product) => {
@@ -238,6 +262,8 @@ export const StateContext = ({ children }) => {
 				setValue,
 				selectedPharmacy,
 				choosePharmacy,
+				deliveryOption,
+				setDeliveryOption,
 				selectedDrugs,
 				showCart,
 				setShowCart,
@@ -251,6 +277,8 @@ export const StateContext = ({ children }) => {
 				toggleCartItemQuantity,
 				onRemove,
 				onRemoveFromTable,
+				createSummary,
+				orderSummary,
 			}}>
 			{children}
 		</Context.Provider>

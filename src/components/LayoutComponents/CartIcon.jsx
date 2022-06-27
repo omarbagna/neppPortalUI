@@ -11,7 +11,7 @@ const CartIcon = ({ onClick, quantity }) => {
 				className={
 					quantity === 0
 						? 'hidden'
-						: 'absolute top-4 right-1 w-3 h-3 rounded-full bg-accent text-white text-xs flex justify-center items-center'
+						: 'absolute top-2 lg:top-4 right-1 w-3 h-3 rounded-full bg-accent text-white text-xs flex justify-center items-center'
 				}>
 				{quantity}
 			</div>
