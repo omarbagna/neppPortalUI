@@ -1,11 +1,13 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { drugs } from '../pages/data';
+import { supabase } from '../supabaseClient';
 
 const Context = createContext();
 
 export const StateContext = ({ children }) => {
 	const [showCart, setShowCart] = useState(false);
+	const [showOrder, setShowOrder] = useState(false);
 	const [cartItems, setCartItems] = useState([]);
 	const [totalPrice, setTotalPrice] = useState(0);
 	const [totalQuantity, setTotalQuantity] = useState(0);
@@ -13,6 +15,7 @@ export const StateContext = ({ children }) => {
 	const [value, setValue] = useState(null);
 	const [selectedPharmacy, setSelectedPharmacy] = useState('None');
 	const [selectedDrugs, setSelectedDrugs] = useState([]);
+	const [orders, setOrders] = useState([]);
 	const [deliveryOption, setDeliveryOption] = useState('');
 
 	const [orderSummary, setOrderSummary] = useState({
@@ -22,6 +25,17 @@ export const StateContext = ({ children }) => {
 		totalItems: '',
 		totalPrice: '',
 	});
+
+	async function fetchOrders() {
+		const { data } = await supabase.from('test_orders').select();
+		setOrders(data);
+
+		console.log('SupabaseData: ', data);
+	}
+
+	useEffect(() => {
+		fetchOrders();
+	}, []);
 
 	const manipulateTable = (searchTerm) => {
 		let updateTable;
@@ -164,83 +178,23 @@ export const StateContext = ({ children }) => {
 		});
 	};
 
-	let foundProduct;
-	let index;
+	const viewOrder = (currentOrder) => {
+		setOrderSummary({
+			...orderSummary,
+			orderNumber: currentOrder.order_number,
+			status: currentOrder.order_status,
+			orders: currentOrder.order_placed,
+			date: currentOrder.created_at,
+			pharmacy: currentOrder.pharmacy,
+			deliveryOption: currentOrder.delivery_mode,
+			totalItems: currentOrder.total_items,
+			totalPrice: 'unknown',
+		});
 
-	const onAdd = (product, quantity) => {
-		const checkProductInCart = cartItems.find((item) => item.id === product.id);
-
-		setTotalPrice(
-			(prevTotalPrice) => prevTotalPrice + product.price * quantity
-		);
-		setTotalQuantity((prevTotalQuantity) => prevTotalQuantity + quantity);
-
-		if (checkProductInCart) {
-			const updatedCartItems = cartItems.map((cartProduct) => {
-				if (cartProduct._id === product._id)
-					return {
-						...cartProduct,
-						quantity: cartProduct.quantity + quantity,
-					};
-				return null;
-			});
-
-			setCartItems(updatedCartItems);
-		} else {
-			product.quantity = quantity;
-
-			setCartItems([...cartItems, { ...product }]);
-		}
-
-		toast.success(`${qty} ${product.name} added to cart.`);
+		setShowOrder(true);
 	};
 
-	const onRemove = (product) => {
-		foundProduct = cartItems.find((item) => item._id === product._id);
-		const updatedCartItems = cartItems.filter(
-			(item) => item._id !== product._id
-		);
-
-		setTotalPrice(
-			(prevTotalPrice) =>
-				prevTotalPrice - foundProduct.price * foundProduct.quantity
-		);
-		setTotalQuantity(
-			(prevTotalQuantity) => prevTotalQuantity - foundProduct.quantity
-		);
-		setCartItems(updatedCartItems);
-
-		toast.error(`${qty} ${product.name} removed from cart.`);
-	};
-
-	const toggleCartItemQuantity = (id, value) => {
-		foundProduct = cartItems.find((item) => item._id === id);
-		index = cartItems.findIndex((product) => product._id === id);
-
-		console.log(index);
-
-		const updatedCartItems = cartItems.filter((item) => item._id !== id);
-
-		if (value === 'inc') {
-			let newCartItems = [
-				...updatedCartItems,
-				{ ...foundProduct, quantity: foundProduct.quantity + 1 },
-			];
-			setCartItems(newCartItems);
-			setTotalPrice((prevTotalPrice) => prevTotalPrice + foundProduct.price);
-			setTotalQuantity((prevTotalQuantity) => prevTotalQuantity + 1);
-		} else if (value === 'dec') {
-			if (foundProduct.quantity > 1) {
-				let newCartItems = [
-					...updatedCartItems,
-					{ ...foundProduct, quantity: foundProduct.quantity - 1 },
-				];
-				setCartItems(newCartItems);
-				setTotalPrice((prevTotalPrice) => prevTotalPrice - foundProduct.price);
-				setTotalQuantity((prevTotalQuantity) => prevTotalQuantity - 1);
-			}
-		}
-	};
+	//console.log(orderSummary);
 
 	const incQty = () => {
 		setQty((prevQty) => prevQty + 1);
@@ -267,17 +221,19 @@ export const StateContext = ({ children }) => {
 				selectedDrugs,
 				showCart,
 				setShowCart,
+				showOrder,
+				setShowOrder,
+				orders,
+				setOrders,
 				cartItems,
 				totalPrice,
 				totalQuantity,
 				qty,
 				incQty,
 				decQty,
-				onAdd,
-				toggleCartItemQuantity,
-				onRemove,
 				onRemoveFromTable,
 				createSummary,
+				viewOrder,
 				orderSummary,
 			}}>
 			{children}

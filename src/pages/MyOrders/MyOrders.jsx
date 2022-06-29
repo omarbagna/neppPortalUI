@@ -1,20 +1,23 @@
 import React, { useState } from 'react';
 import { SelectOptions, Table, Title } from '../../components';
-import { orderFilter, tableData } from '../data';
+import { useStateContext } from '../../context/StateContext';
+import { orderFilter } from '../data';
 
 export default function MyOrders() {
+	const { orders } = useStateContext();
+
 	const [choice, setChoice] = useState('');
 
 	const columnsDesktop = [
-		{ field: 'order', header: 'Order #' },
-		{ field: 'status', header: 'Status' },
-		{ field: 'date', header: 'Date' },
+		{ field: 'order_number', header: 'Order #' },
+		{ field: 'order_status', header: 'Status' },
+		{ field: 'created_at', header: 'Date' },
 	];
 
 	const columnsMobile = [
-		{ field: 'exert', header: 'Order' },
-		{ field: 'status', header: 'Status' },
-		{ field: 'date', header: 'Date' },
+		{ field: 'order_number', header: 'Order' },
+		{ field: 'order_status', header: 'Status' },
+		{ field: 'created_at', header: 'Date' },
 	];
 
 	return (
@@ -38,7 +41,7 @@ export default function MyOrders() {
 			</div>
 			<div className="w-full block lg:hidden">
 				<Table
-					data={tableData}
+					data={orders}
 					columns={columnsMobile}
 					orderFilter={choice}
 					orders="yes"
@@ -46,9 +49,9 @@ export default function MyOrders() {
 			</div>
 			<div className="w-full hidden lg:block">
 				<Table
-					data={tableData}
+					data={orders}
 					columns={columnsDesktop}
-					filter={choice}
+					orderFilter={choice}
 					orders="yes"
 				/>
 			</div>

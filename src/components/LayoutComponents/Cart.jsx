@@ -16,7 +16,6 @@ const Cart = () => {
 	const cartRef = useRef();
 	const {
 		totalPrice,
-
 		cartItems,
 		setShowCart,
 		toggleCartItemQuantity,
@@ -24,14 +23,21 @@ const Cart = () => {
 	} = useStateContext();
 
 	return (
-		<div className="cart-wrapper" ref={cartRef}>
-			<div className="cart-container">
+		<div
+			onClick={() => setShowCart(false)}
+			className="cart-wrapper"
+			ref={cartRef}>
+			<div
+				onClick={(e) => {
+					e.stopPropagation();
+				}}
+				className="cart-container">
 				<button
 					type="button"
-					className="cart-heading"
+					className="cart-heading transition-all duration-200 ease-in hover:text-accent"
 					onClick={() => setShowCart(false)}>
 					<AiOutlineLeft />
-					<span className="heading">My Cart</span>
+					<span className="heading">Back</span>
 				</button>
 
 				{cartItems.length < 1 && (

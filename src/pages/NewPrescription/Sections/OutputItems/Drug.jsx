@@ -81,7 +81,7 @@ const Drug = () => {
 					type="text"
 					placeholder="Write a brief description"
 					name="desc"
-					required={true}
+					required={false}
 				/>
 
 				<div className="w-full flex justify-end items-center gap-4">
