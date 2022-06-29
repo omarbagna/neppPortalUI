@@ -12,7 +12,7 @@ const Home = () => {
 				<p className="text-base sm:text-xl md:text-2xl lg:text-3xl font-extralight">
 					Welcome,
 				</p>
-				<Title size="text-4xl md:text-6xl lg:text-9xl" title="Jimmy" />
+				<Title size="text-7xl md:text-8xl lg:text-9xl" title="Jimmy" />
 			</div>
 
 			<div className="flex flex-wrap gap-10 lg:gap-20">
