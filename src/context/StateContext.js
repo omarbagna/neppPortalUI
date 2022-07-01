@@ -33,11 +33,27 @@ export const StateContext = ({ children }) => {
 		totalPrice: '',
 	});
 
+	async function fetchApiData() {
+		fetch('https://lab.rxhealthbeta.com/jimmy/medicourier/mobile-api/')
+			.then((response) => {
+				console.log(response);
+				return response.json();
+			})
+			.then((result) => {
+				// Work with JSON data here
+				console.log(result);
+			})
+			.catch((err) => {
+				// Do something for an error here
+				console.log('Error Reading data' + err);
+			});
+	}
+
 	async function fetchOrders() {
 		const { data } = await supabase.from('test_orders').select();
 		setOrders(data);
 
-		console.log('SupabaseData: ', data);
+		console.log('Supabase Orders Data: ', data);
 		setUpdateOrder(false);
 	}
 
@@ -45,7 +61,7 @@ export const StateContext = ({ children }) => {
 		const { data } = await supabase.from('test_user').select();
 		setUser(data);
 
-		console.log('SupabaseUserData: ', data);
+		console.log('Supabase User Data: ', data);
 		setIsLoaded(true);
 		toast.success(`Welcome to your NEPP dashboard ${data[0].first_name}`);
 	}
@@ -69,6 +85,7 @@ export const StateContext = ({ children }) => {
 
 	useEffect(() => {
 		fetchUser();
+		fetchApiData();
 	}, []);
 
 	const manipulateTable = (searchTerm) => {

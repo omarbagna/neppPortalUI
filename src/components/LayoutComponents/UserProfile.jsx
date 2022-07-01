@@ -63,7 +63,7 @@ const UserProfile = () => {
 				onClick={(e) => {
 					e.stopPropagation();
 				}}
-				className="cart-container flex flex-col gap-6">
+				className="cart-container flex flex-col gap-6 mb-20 lg:mb-5">
 				<div className="w-full flex justify-end">
 					<SubmitBtn
 						name="Close"
