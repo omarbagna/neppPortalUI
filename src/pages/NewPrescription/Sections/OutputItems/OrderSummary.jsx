@@ -5,17 +5,17 @@ import { SubmitBtn, Title } from '../../../../components';
 import { useStateContext } from '../../../../context/StateContext';
 
 const OrderSummary = () => {
-	const { orderSummary, setShowCart } = useStateContext();
+	const { orderSummary, pushOrderData } = useStateContext();
 
 	//console.log('Search Input: ', input);
 	const navigate = useNavigate();
 
 	const handleNavigate = () => {
-		navigate(`/`);
-		setShowCart(true);
+		navigate(`/my-orders`);
 	};
 
 	const handleSubmit = () => {
+		pushOrderData();
 		handleNavigate();
 	};
 
@@ -62,12 +62,12 @@ const OrderSummary = () => {
 					<p className="font-medium text-xl">{orderSummary.totalItems}</p>
 				</div>
 
-				<div className="flex w-full gap-2 justify-start items-end">
+				{/*<div className="flex w-full gap-2 justify-start items-end">
 					<h3 className="w-1/3 text-right text-base font-light text-gray">
 						Total Price GH¢
 					</h3>
 					<p className="font-medium text-xl">{orderSummary.totalPrice}</p>
-				</div>
+						</div>*/}
 
 				<div className="w-full flex justify-end items-center gap-4">
 					<SubmitBtn
@@ -78,7 +78,7 @@ const OrderSummary = () => {
 							navigate(-1);
 						}}
 					/>
-					<SubmitBtn name="Proceed to Checkout" />
+					<SubmitBtn name="Place Order" />
 				</div>
 			</FormContainer>
 		</div>

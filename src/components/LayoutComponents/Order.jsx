@@ -53,7 +53,7 @@ const Order = () => {
 								Order Date:
 							</h3>
 							<p className="capitalize font-medium text-lg sm:text-xl">
-								{orderSummary.date.substring(0, orderSummary.date.length - 9)}
+								{orderSummary.date}
 							</p>
 						</div>
 
@@ -117,11 +117,13 @@ const Order = () => {
 							</p>
 						</div>
 					</div>
-					{orderSummary.status === 'pending' && (
-						<div className="flex gap-8 w-full items-end pb-10 lg:pb-2 justify-around md:justify-end">
+					{orderSummary.status === 'pending' ? (
+						<div className="flex gap-8 w-full items-end pb-28 lg:pb-2 justify-around md:justify-end">
 							<SubmitBtn name="CHANGE PHARMACY" type="dull" />
 							<SubmitBtn name="MAKE PAYMENT" />
 						</div>
+					) : (
+						<div className="flex gap-8 w-full items-end pb-28 lg:pb-2 justify-around md:justify-end" />
 					)}
 				</div>
 			</div>

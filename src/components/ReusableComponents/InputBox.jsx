@@ -1,6 +1,7 @@
+import { TextField } from '@mui/material';
 import React from 'react';
 
-import { TextFieldElement } from 'react-hook-form-mui';
+//import { TextFieldElement } from 'react-hook-form-mui';
 
 const InputBox = ({
 	placeholder,
@@ -10,28 +11,36 @@ const InputBox = ({
 	focused,
 	onChange,
 	symbol,
-	pattern,
+	disabled = false,
 	name,
 	min,
 	max,
+	error,
+	rule,
+	helperText,
+	value,
 }) => {
 	return (
 		<div className="w-full">
-			<TextFieldElement
+			<TextField
+				{...rule}
 				variant="standard"
 				className="w-full"
 				InputProps={{
 					startAdornment: symbol,
-					pattern: pattern,
 				}}
+				error={error}
+				helperText={helperText}
 				placeholder={placeholder}
 				multiline={multiline}
+				defaultValue={value}
 				rows={4}
 				label={placeholder}
 				focused={focused}
 				onChange={onChange}
 				type={type}
 				required={required}
+				disabled={disabled}
 				name={name}
 				min={min}
 				max={max}

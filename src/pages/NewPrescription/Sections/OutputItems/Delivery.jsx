@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { FormContainer } from 'react-hook-form-mui';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
@@ -6,34 +6,28 @@ import { SelectOptions, SubmitBtn, Title } from '../../../../components';
 import { useStateContext } from '../../../../context/StateContext';
 import { deliveryOptions } from '../../../data';
 
-import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
-import mapInfo from './osm-providers';
-import useGeoLocation from '../../../../hooks/useGeoLocation';
+import GoogleMapReact from 'google-map-react';
+import { BiCurrentLocation } from 'react-icons/bi';
 
-const markerIcon = new L.Icon({
-	iconUrl: require('../../../../resources/images/marker.png'),
-	iconSize: [25, 25],
-	iconAnchor: [8, 25],
-	popupAnchor: [3, -26],
-});
-
-const originIcon = new L.Icon({
-	iconUrl: require('../../../../resources/images/origin.png'),
-	iconSize: [20, 25],
-	iconAnchor: [5, 25],
-	popupAnchor: [5, -26],
-});
+const AnyReactComponent = () => (
+	<div>
+		<BiCurrentLocation className="text-2xl text-accent" />
+	</div>
+);
 
 const Delivery = () => {
-	const location = useGeoLocation();
-	const center = { lat: 5.6653157, lng: -0.2062689 };
-	const ZOOM_LEVEL = 10;
-	const mapRef = useRef();
+	const center = { lat: 59.95, lng: 30.33 };
+	const zoom = 11;
 
-	const { selectedPharmacy, deliveryOption, setDeliveryOption, createSummary } =
-		useStateContext();
+	const {
+		selectedPharmacy,
+		deliveryOption,
+		setDeliveryOption,
+		createSummary,
+		userLocation,
+	} = useStateContext();
+
+	console.log(userLocation);
 
 	const handleChange = (event) => {
 		setDeliveryOption(event.target.value);
@@ -98,34 +92,12 @@ const Delivery = () => {
 						</div>
 
 						<div className="transition-all duration-200 ease-in w-full h-96 rounded-md overflow-hidden shadow-md hover:shadow-lg">
-							<MapContainer
-								id="mapId"
-								center={center}
-								zoom={ZOOM_LEVEL}
-								ref={mapRef}
-								scrollWheelZoom={true}>
-								<TileLayer
-									url={mapInfo.maptiler.url}
-									atribution={mapInfo.maptiler.attribution}
-								/>
-								{location.loaded && !location.error && (
-									<Marker
-										position={[
-											location.coordinates.lat,
-											location.coordinates.lng,
-										]}
-										icon={markerIcon}>
-										<Popup>
-											<em>You are here</em>
-										</Popup>
-									</Marker>
-								)}
-								<Marker position={[5.6806688, -0.2017897]} icon={originIcon}>
-									<Popup>
-										<em>Pharmacy is here</em>
-									</Popup>
-								</Marker>
-							</MapContainer>
+							<GoogleMapReact
+								bootstrapURLKeys={{ key: process.env.GOOGLE_MAP_PUBLIC_API }}
+								defaultCenter={center}
+								defaultZoom={zoom}>
+								<AnyReactComponent lat={59.955413} lng={30.337844} />
+							</GoogleMapReact>
 						</div>
 					</div>
 				) : (

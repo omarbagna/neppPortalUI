@@ -11,3 +11,5 @@ export { default as SelectOptions } from './ReusableComponents/SelectOptions';
 export { default as SubmitBtn } from './ReusableComponents/SubmitBtn';
 export { default as ProfileCard } from './ReusableComponents/ProfileCard';
 export { default as Table } from './ReusableComponents/Table';
+
+export { default as FullPageLoader } from './FullPageLoader/index';

@@ -55,28 +55,38 @@ export const ProfileContact = [
 	},
 	{
 		id: 3,
-		title: 'GPS Address:',
-		subtext: 'GE-122-0984',
+		title: 'Ghana Card No:',
+		subtext: 'GHA-002323450984-9',
 	},
 	{
 		id: 4,
-		title: 'Home Address:',
+		title: 'Address Line 1:',
+		subtext: 'No Data Found',
+	},
+	{
+		id: 5,
+		title: 'Address Line 2:',
+		subtext: 'No Data Found',
+	},
+	{
+		id: 6,
+		title: 'Address Line 3:',
 		subtext: 'No Data Found',
 	},
 ];
 export const ProfileInsurance = [
 	{
-		id: 5,
+		id: 7,
 		title: 'NHIS No:',
 		subtext: 'Not Available',
 	},
 	{
-		id: 6,
+		id: 8,
 		title: 'Insurance Company:',
 		subtext: 'GAB HEALTH INSURANCE LIMITED',
 	},
 	{
-		id: 7,
+		id: 9,
 		title: 'Member No:',
 		subtext: 'GGAB000005-0',
 	},

@@ -8,13 +8,13 @@ import { useStateContext } from '../../../../context/StateContext';
 import { drugs } from '../../../data';
 
 const Drug = () => {
-	const { totalPrice, value, onSearch, selectedDrugs } = useStateContext();
+	const { value, onSearch, selectedDrugs } = useStateContext();
 
 	const columns = [
 		{ field: 'sn', header: 'SN' },
 		{ field: 'title', header: 'Item Name' },
 		{ field: 'quantity', header: 'Quantity' },
-		{ field: 'price', header: 'Price GH¢' },
+		//{ field: 'price', header: 'Price GH¢' },
 		{ field: 'action', header: 'Action' },
 	];
 
@@ -40,10 +40,10 @@ const Drug = () => {
 						<Title size="text-3xl sm:tex-4xl" title="Add drug" />
 					</div>
 
-					<div className="flex justify-end gap-1 items-center w-full">
+					{/*<div className="flex justify-end gap-1 items-center w-full">
 						<Title size="text-base sm:text-lg" title="Total Price: GH¢" />
 						<p className="text-2xl">{totalPrice}</p>
-					</div>
+	</div>*/}
 				</div>
 
 				<div className="w-full">

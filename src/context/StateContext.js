@@ -1,25 +1,32 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
+import useGeoLocation from '../hooks/useGeoLocation';
 import { drugs } from '../pages/data';
 import { supabase } from '../supabaseClient';
 
 const Context = createContext();
 
 export const StateContext = ({ children }) => {
+	const userLocation = useGeoLocation();
+
+	const [isLoaded, setIsLoaded] = useState(false);
 	const [showCart, setShowCart] = useState(false);
 	const [showOrder, setShowOrder] = useState(false);
-	const [cartItems, setCartItems] = useState([]);
+	const [showProfile, setShowProfile] = useState(false);
 	const [totalPrice, setTotalPrice] = useState(0);
 	const [totalQuantity, setTotalQuantity] = useState(0);
 	const [qty, setQty] = useState(1);
 	const [value, setValue] = useState(null);
 	const [selectedPharmacy, setSelectedPharmacy] = useState('None');
 	const [selectedDrugs, setSelectedDrugs] = useState([]);
+	const [updateOrder, setUpdateOrder] = useState(false);
+	const [order, setOrder] = useState({});
 	const [orders, setOrders] = useState([]);
+	const [user, setUser] = useState([]);
 	const [deliveryOption, setDeliveryOption] = useState('');
 
 	const [orderSummary, setOrderSummary] = useState({
-		orders: [],
+		order: [],
 		pharmacy: '',
 		deliveryOption: '',
 		totalItems: '',
@@ -31,10 +38,37 @@ export const StateContext = ({ children }) => {
 		setOrders(data);
 
 		console.log('SupabaseData: ', data);
+		setUpdateOrder(false);
+	}
+
+	async function fetchUser() {
+		const { data } = await supabase.from('test_user').select();
+		setUser(data);
+
+		console.log('SupabaseUserData: ', data);
+		setIsLoaded(true);
+		toast.success(`Welcome to your NEPP dashboard ${data[0].first_name}`);
+	}
+
+	async function pushOrderData() {
+		const { data, error } = await supabase.from('test_orders').insert([order]);
+
+		console.log(order);
+		console.log(data, error);
+
+		toast.success(
+			`Order placed successfully, your order number is #${order.order_number} added to list.`
+		);
+
+		setUpdateOrder(true);
 	}
 
 	useEffect(() => {
 		fetchOrders();
+	}, [updateOrder]);
+
+	useEffect(() => {
+		fetchUser();
 	}, []);
 
 	const manipulateTable = (searchTerm) => {
@@ -176,6 +210,16 @@ export const StateContext = ({ children }) => {
 			totalItems: totalQuantity,
 			totalPrice: totalPrice,
 		});
+
+		setOrder({
+			created_at: new Date(),
+			delivery_mode: deliveryOption,
+			order_placed: selectedDrugs,
+			order_number: Math.floor(Math.random() * 900000000) + 100000000,
+			order_status: 'pending',
+			pharmacy: selectedPharmacy,
+			total_items: totalQuantity,
+		});
 	};
 
 	const viewOrder = (currentOrder) => {
@@ -211,6 +255,9 @@ export const StateContext = ({ children }) => {
 	return (
 		<Context.Provider
 			value={{
+				userLocation,
+				user,
+				isLoaded,
 				onSearch,
 				value,
 				setValue,
@@ -223,9 +270,10 @@ export const StateContext = ({ children }) => {
 				setShowCart,
 				showOrder,
 				setShowOrder,
+				showProfile,
+				setShowProfile,
 				orders,
 				setOrders,
-				cartItems,
 				totalPrice,
 				totalQuantity,
 				qty,
@@ -233,6 +281,7 @@ export const StateContext = ({ children }) => {
 				decQty,
 				onRemoveFromTable,
 				createSummary,
+				pushOrderData,
 				viewOrder,
 				orderSummary,
 			}}>

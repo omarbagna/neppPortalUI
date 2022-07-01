@@ -3,16 +3,21 @@ import { BiAddToQueue, BiCartAlt } from 'react-icons/bi';
 import { IoPricetagsOutline } from 'react-icons/io5';
 
 import { Advert, Title, Widget } from '../../components';
+import { useStateContext } from '../../context/StateContext';
 import { Widgets } from '../data';
 
 const Home = () => {
+	const { user } = useStateContext();
 	return (
 		<div className="py-14 flex flex-col gap-20 justify-start items-start mt-4 mb-14 sm:mb-20 sm:mt-16 lg:pl-44 lg:my-0 p-4 sm:p-8 lg:pr-16 ">
 			<div className="flex flex-col gap-3 justify-start items-start">
 				<p className="text-base sm:text-xl md:text-2xl lg:text-3xl font-extralight">
 					Welcome,
 				</p>
-				<Title size="text-7xl md:text-8xl lg:text-9xl" title="Jimmy" />
+				<Title
+					size="text-7xl md:text-8xl lg:text-9xl"
+					title={`${user[0].first_name}`}
+				/>
 			</div>
 
 			<div className="flex flex-wrap gap-10 lg:gap-20">

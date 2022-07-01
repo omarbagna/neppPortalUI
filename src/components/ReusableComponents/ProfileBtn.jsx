@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ProfileBtn = ({ tag: Icon, title, subtext }) => {
+const ProfileBtn = ({ tag: Icon, title, subtext, email = false }) => {
 	return (
 		<div
 			className={
@@ -12,7 +12,12 @@ const ProfileBtn = ({ tag: Icon, title, subtext }) => {
 					className={'text-sm lg:text-base capitalize group-hover:text-accent'}>
 					{title}
 				</h3>
-				<p className="capitalize text-[10px] lg:text-xs w-28 lg:w-32 text-gray opacity-50">
+				<p
+					className={
+						!email
+							? 'capitalize text-[10px] lg:text-xs w-28 lg:w-32 text-gray opacity-50'
+							: 'lowercase text-[10px] lg:text-xs w-28 lg:w-32 text-gray opacity-50'
+					}>
 					{subtext}
 				</p>
 			</div>

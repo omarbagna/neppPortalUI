@@ -2,14 +2,15 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import Copyright from './Copyright';
 import LogoutBtn from './LogoutBtn';
-import CartIcon from './CartIcon';
-import Cart from './Cart';
+//import CartIcon from './CartIcon';
+//import Cart from './Cart';
 
 import { useStateContext } from '../../context/StateContext.js';
 import Order from './Order';
+import UserProfile from './UserProfile';
 
 const MainContent = () => {
-	const { showOrder, showCart, setShowCart, totalQuantity } = useStateContext();
+	const { showOrder, showProfile } = useStateContext();
 
 	return (
 		<div className="w-screen h-full mb-20 lg:mb-0 lg:h-screen flex flex-col justify-start overflow-y-scroll">
@@ -31,7 +32,7 @@ const MainContent = () => {
 				<Copyright />
 			</div>
 
-			{showCart && <Cart />}
+			{showProfile && <UserProfile />}
 			{showOrder && <Order />}
 		</div>
 	);
