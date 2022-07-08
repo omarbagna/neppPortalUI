@@ -2,7 +2,11 @@ import React from 'react';
 import Tooltip from '@mui/material/Tooltip';
 import { BiTrash } from 'react-icons/bi';
 import { useStateContext } from '../../context/StateContext';
-import { BsCheckCircleFill } from 'react-icons/bs';
+import {
+	BsArrowLeftCircleFill,
+	BsArrowRightCircleFill,
+	BsCheckCircleFill,
+} from 'react-icons/bs';
 import { CgUnavailable } from 'react-icons/cg';
 
 const Table = ({
@@ -11,8 +15,11 @@ const Table = ({
 	orderFilter = null,
 	pharmacyFilter = null,
 	orders = null,
+	pharmacy = null,
+	drug = null,
 }) => {
-	const { onRemoveFromTable, choosePharmacy, viewOrder } = useStateContext();
+	const { onRemoveFromTable, choosePharmacy, viewOrder, inc, dec } =
+		useStateContext();
 
 	return (
 		<div className="min-w-[500px] w-full rounded-t-lg overflow-hidden">
@@ -40,7 +47,7 @@ const Table = ({
 										viewOrder(row);
 									}}
 									key={index}
-									className="group transition-all duration-200 ease-in cursor-pointer border-b-2  bg-white text-black font-light hover:bg-gray/70 hover:text-white">
+									className="group transition-all duration-200 ease-in cursor-pointer border-b-2  bg-white text-black font-light hover:bg-gray/50 hover:text-white">
 									{columns.map((col, index) => (
 										<td
 											key={index}
@@ -83,7 +90,7 @@ const Table = ({
 											viewOrder(row);
 										}}
 										key={index}
-										className="group transition-all duration-200 ease-in cursor-pointer border-b-2  bg-white text-black font-light hover:bg-gray/70 hover:text-white">
+										className="group transition-all duration-200 ease-in cursor-pointer border-b-2  bg-white text-black font-light hover:bg-gray/50 hover:text-white">
 										{columns.map((col, index) => (
 											<td
 												key={index}
@@ -111,7 +118,7 @@ const Table = ({
 									</tr>
 								</Tooltip>
 							))
-					) : data && pharmacyFilter !== '' ? (
+					) : pharmacy && data && pharmacyFilter !== '' ? (
 						data
 							.filter(
 								(data) =>
@@ -122,22 +129,14 @@ const Table = ({
 								<tr
 									key={index}
 									onClick={() => choosePharmacy(row)}
-									className="group transition-all duration-200 ease-in cursor-default border-b-2  bg-white text-black font-light hover:bg-gray/70 hover:text-white">
+									className="group transition-all duration-200 ease-in cursor-default border-b-2  bg-white text-black font-light hover:bg-gray/50 hover:text-white">
 									{columns.map((col, index) => (
 										<td
 											key={index}
 											className={
 												col.field === 'status' ? 'text-xs uppercase p-3' : 'p-3'
 											}>
-											{col.field === 'action' ? (
-												<span
-													onClick={() => {
-														onRemoveFromTable(row);
-													}}
-													className="rounded-lg p-1 transition-all duration-150 ease-in text-accent hover:bg-bgOne group-hover:text-white flex justify-center items-center cursor-pointer gap-1">
-													Remove <BiTrash className="text-lg" />
-												</span>
-											) : col.field === 'status' ? (
+											{col.field === 'status' ? (
 												<span
 													className={
 														row[col.field] === 'available'
@@ -165,17 +164,13 @@ const Table = ({
 									))}
 								</tr>
 							))
-					) : data ? (
+					) : drug && data ? (
 						data.map((row, index) => (
 							<tr
 								key={index}
-								className="group transition-all duration-200 ease-in cursor-default border-b-2  bg-white text-black font-light hover:bg-gray/70 hover:text-white">
+								className="group transition-all duration-200 ease-in cursor-default border-b-2  bg-white text-black font-light hover:bg-gray/50 hover:text-white">
 								{columns.map((col, index) => (
-									<td
-										key={index}
-										className={
-											col.field === 'status' ? 'text-xs uppercase p-3' : 'p-3'
-										}>
+									<td key={index} className="p-3">
 										{col.field === 'action' ? (
 											<span
 												onClick={() => {
@@ -184,26 +179,17 @@ const Table = ({
 												className="rounded-lg p-1 transition-all duration-150 ease-in text-accent hover:bg-bgOne group-hover:text-white flex justify-center items-center cursor-pointer gap-1">
 												Remove <BiTrash className="text-lg" />
 											</span>
-										) : col.field === 'status' ? (
-											<span
-												className={
-													row[col.field] === 'available'
-														? 'text-bgTwo flex justify-start items-center cursor-pointer gap-3'
-														: row[col.field] === 'unavailable'
-														? 'text-accent flex justify-start items-center cursor-pointer gap-3'
-														: ''
-												}>
-												{row[col.field] === 'available' ? (
-													<>
-														<BsCheckCircleFill />
-														{row[col.field]}
-													</>
-												) : (
-													<>
-														<CgUnavailable />
-														{row[col.field]}
-													</>
-												)}
+										) : col.field === 'quantity' ? (
+											<span className="flex justify-start items-center gap-4">
+												<BsArrowLeftCircleFill
+													onClick={() => dec(row)}
+													className="transition-all duration-200 ease-in text-accent hover:scale-110 cursor-pointer"
+												/>
+												{row[col.field]}
+												<BsArrowRightCircleFill
+													onClick={() => inc(row)}
+													className="transition-all duration-200 ease-in text-bgTwo hover:scale-110 cursor-pointer"
+												/>
 											</span>
 										) : (
 											<span className="capitalize">{row[col.field]}</span>

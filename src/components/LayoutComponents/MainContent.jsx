@@ -6,11 +6,11 @@ import LogoutBtn from './LogoutBtn';
 //import Cart from './Cart';
 
 import { useStateContext } from '../../context/StateContext.js';
-import Order from './Order';
 import UserProfile from './UserProfile';
+import PlacedOrder from './PlacedOrder';
 
 const MainContent = () => {
-	const { showOrder, showProfile } = useStateContext();
+	const { showPlacedOrder, showProfile } = useStateContext();
 
 	return (
 		<div className="w-screen h-full mb-20 lg:mb-0 lg:h-screen flex flex-col justify-start overflow-y-scroll">
@@ -33,7 +33,7 @@ const MainContent = () => {
 			</div>
 
 			{showProfile && <UserProfile />}
-			{showOrder && <Order />}
+			{showPlacedOrder && <PlacedOrder />}
 		</div>
 	);
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FormContainer } from 'react-hook-form-mui';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
@@ -6,18 +6,24 @@ import { SelectOptions, SubmitBtn, Title } from '../../../../components';
 import { useStateContext } from '../../../../context/StateContext';
 import { deliveryOptions } from '../../../data';
 
-import GoogleMapReact from 'google-map-react';
-import { BiCurrentLocation } from 'react-icons/bi';
+import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
+//import { BiCurrentLocation } from 'react-icons/bi';
 
-const AnyReactComponent = () => (
-	<div>
-		<BiCurrentLocation className="text-2xl text-accent" />
-	</div>
-);
+const containerStyle = {
+	width: '100%',
+	height: '100%',
+};
+
+const center = {
+	lat: 5.665313,
+	lng: -0.206312,
+};
 
 const Delivery = () => {
-	const center = { lat: 59.95, lng: 30.33 };
-	const zoom = 11;
+	const { isLoaded } = useJsApiLoader({
+		id: 'google-map-script',
+		googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAP_API,
+	});
 
 	const {
 		selectedPharmacy,
@@ -47,6 +53,7 @@ const Delivery = () => {
 			handleNavigate();
 		}
 	};
+
 	return (
 		<div className="w-full h-full flex flex-col gap-10 justify-start items-start p-6 overflow-y-scroll">
 			<FormContainer onSuccess={handleSubmit}>
@@ -92,12 +99,17 @@ const Delivery = () => {
 						</div>
 
 						<div className="transition-all duration-200 ease-in w-full h-96 rounded-md overflow-hidden shadow-md hover:shadow-lg">
-							<GoogleMapReact
-								bootstrapURLKeys={{ key: process.env.GOOGLE_MAP_PUBLIC_API }}
-								defaultCenter={center}
-								defaultZoom={zoom}>
-								<AnyReactComponent lat={59.955413} lng={30.337844} />
-							</GoogleMapReact>
+							{isLoaded ? (
+								<GoogleMap
+									mapContainerStyle={containerStyle}
+									center={center}
+									zoom={13}>
+									{/* Child components, such as markers, info windows, etc. */}
+									<></>
+								</GoogleMap>
+							) : (
+								<></>
+							)}
 						</div>
 					</div>
 				) : (

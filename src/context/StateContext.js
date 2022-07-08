@@ -1,3 +1,4 @@
+//import axios from 'axios';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import useGeoLocation from '../hooks/useGeoLocation';
@@ -8,54 +9,78 @@ const Context = createContext();
 
 export const StateContext = ({ children }) => {
 	const userLocation = useGeoLocation();
-
 	const [isLoaded, setIsLoaded] = useState(false);
-	const [showCart, setShowCart] = useState(false);
-	const [showOrder, setShowOrder] = useState(false);
-	const [showProfile, setShowProfile] = useState(false);
-	const [totalPrice, setTotalPrice] = useState(0);
-	const [totalQuantity, setTotalQuantity] = useState(0);
-	const [qty, setQty] = useState(1);
-	const [value, setValue] = useState(null);
-	const [selectedPharmacy, setSelectedPharmacy] = useState('None');
-	const [selectedDrugs, setSelectedDrugs] = useState([]);
-	const [updateOrder, setUpdateOrder] = useState(false);
-	const [order, setOrder] = useState({});
-	const [orders, setOrders] = useState([]);
-	const [user, setUser] = useState([]);
-	const [deliveryOption, setDeliveryOption] = useState('');
 
-	const [orderSummary, setOrderSummary] = useState({
-		order: [],
-		pharmacy: '',
-		deliveryOption: '',
-		totalItems: '',
-		totalPrice: '',
+	const [showCart, setShowCart] = useState(false);
+
+	// User information Hooks
+	const [showProfile, setShowProfile] = useState(false);
+	const [user, setUser] = useState(null);
+	const [address, setAddress] = useState({
+		line1: 'Not Set',
+		line2: 'Not Set',
+		line3: 'Not Set',
 	});
 
-	async function fetchApiData() {
-		fetch('https://lab.rxhealthbeta.com/jimmy/medicourier/mobile-api/')
-			.then((response) => {
-				console.log(response);
-				return response.json();
-			})
-			.then((result) => {
-				// Work with JSON data here
-				console.log(result);
-			})
-			.catch((err) => {
-				// Do something for an error here
-				console.log('Error Reading data' + err);
-			});
-	}
+	// Order Placement hooks
+	const [qty, setQty] = useState(1);
+	const [selectedDrugs, setSelectedDrugs] = useState([]);
+	const [value, setValue] = useState(null);
+	const [selectedPharmacy, setSelectedPharmacy] = useState('None');
+	const [deliveryOption, setDeliveryOption] = useState('');
+	const [totalQuantity, setTotalQuantity] = useState(0);
+	const [orderSummary, setOrderSummary] = useState(null);
+	const [order, setOrder] = useState({});
+	const [orders, setOrders] = useState([]);
+	const [updateOrder, setUpdateOrder] = useState(false);
+	const [totalPrice, setTotalPrice] = useState(0);
+
+	// Order details hook
+	const [showPlacedOrder, setShowPlacedOrder] = useState(false);
+	const [placedOrder, setPlacedOrder] = useState({});
+
+	/*async function fetchUser() {
+		const response = await axios.post(
+			'mobile-api/',
+			JSON.stringify({
+				method: 'REQUEST_SIGNUP',
+				api_key: '42353d5c33b45b0a8246b9bf0cd46820e516e3e4',
+				user: 'web',
+				email: 'ekdedume@gmail.com',
+				surname: 'Emmanuel',
+				othernames: 'Jimmy',
+				mobile_number: '0247159599',
+				password: '12345',
+				device_id: '01010101',
+			}),
+			{
+				headers: {
+					'Access-Control-Allow-Origin': '*',
+					Accept: 'application/json',
+					'Content-Type': 'application/json',
+				},
+			}
+		);
+
+		setUser(response.data.data);
+
+		//console.log();
+		setIsLoaded(true);
+		//toast.success(`Welcome to your NEPP dashboard ${data[0].first_name}`);
+	}*/
+
+	//console.log('the user info is: ', user);
 
 	async function fetchOrders() {
 		const { data } = await supabase.from('test_orders').select();
 		setOrders(data);
 
-		console.log('Supabase Orders Data: ', data);
+		//console.log('Supabase Orders Data: ', data);
+
 		setUpdateOrder(false);
 	}
+
+	console.log('User Orders: ', orders);
 
 	async function fetchUser() {
 		const { data } = await supabase.from('test_user').select();
@@ -69,24 +94,22 @@ export const StateContext = ({ children }) => {
 	async function pushOrderData() {
 		const { data, error } = await supabase.from('test_orders').insert([order]);
 
-		console.log(order);
+		//console.log(order);
 		console.log(data, error);
 
 		toast.success(
 			`Order placed successfully, your order number is #${order.order_number} added to list.`
 		);
 
+		setOrderSummary(null);
+		setOrder({});
+		setSelectedDrugs([]);
+		setTotalQuantity(0);
+		setDeliveryOption('');
+		setSelectedPharmacy('None');
+
 		setUpdateOrder(true);
 	}
-
-	useEffect(() => {
-		fetchOrders();
-	}, [updateOrder]);
-
-	useEffect(() => {
-		fetchUser();
-		fetchApiData();
-	}, []);
 
 	const manipulateTable = (searchTerm) => {
 		let updateTable;
@@ -185,6 +208,58 @@ export const StateContext = ({ children }) => {
 
 		let newArray = [...selectedDrugs];
 
+		const updatedDrugsSelected = selectedDrugs.filter(
+			(item) => item.id !== drug.id
+		);
+
+		setTotalQuantity(totalQuantity - newArray[updatedDrugs].quantity);
+		setTotalPrice(totalPrice - newArray[updatedDrugs].price);
+
+		newArray[updatedDrugs].quantity = 1;
+
+		newArray = updatedDrugsSelected;
+
+		//console.log('Index of updated Drug is', updatedDrugs);
+
+		setSelectedDrugs(newArray);
+
+		toast.error(`${drug.title.toLocaleUpperCase()} removed from list.`);
+	};
+
+	const inc = (drug) => {
+		const updatedDrugs = selectedDrugs.findIndex((selectedDrug) => {
+			if (selectedDrug.id === drug.id) {
+				return selectedDrug.id;
+			} else {
+				return null;
+			}
+		});
+
+		let newArray = [...selectedDrugs];
+
+		newArray[updatedDrugs].quantity = newArray[updatedDrugs].quantity + 1;
+		setTotalQuantity(totalQuantity + 1);
+		setTotalPrice(totalPrice + selectedDrugs[updatedDrugs].price);
+
+		//console.log('Index of updated Drug is', updatedDrugs);
+
+		setSelectedDrugs(newArray);
+		console.log(newArray);
+
+		toast.success(`1 ${drug.title.toLocaleUpperCase()} added.`);
+	};
+
+	const dec = (drug) => {
+		const updatedDrugs = selectedDrugs.findIndex((selectedDrug) => {
+			if (selectedDrug.id === drug.id) {
+				return selectedDrug.id;
+			} else {
+				return null;
+			}
+		});
+
+		let newArray = [...selectedDrugs];
+
 		if (newArray[updatedDrugs].quantity <= 1) {
 			const updatedDrugsSelected = selectedDrugs.filter(
 				(item) => item.id !== drug.id
@@ -204,7 +279,7 @@ export const StateContext = ({ children }) => {
 
 		setSelectedDrugs(newArray);
 
-		toast.error(`1 ${drug.title.toLocaleUpperCase()} removed from list.`);
+		toast.error(`1 ${drug.title.toLocaleUpperCase()} removed.`);
 	};
 
 	const choosePharmacy = (selection) => {
@@ -240,8 +315,8 @@ export const StateContext = ({ children }) => {
 	};
 
 	const viewOrder = (currentOrder) => {
-		setOrderSummary({
-			...orderSummary,
+		setPlacedOrder({
+			...placedOrder,
 			orderNumber: currentOrder.order_number,
 			status: currentOrder.order_status,
 			orders: currentOrder.order_placed,
@@ -252,22 +327,86 @@ export const StateContext = ({ children }) => {
 			totalPrice: 'unknown',
 		});
 
-		setShowOrder(true);
+		setShowPlacedOrder(true);
 	};
 
-	//console.log(orderSummary);
+	useEffect(() => {
+		fetchOrders();
+	}, [updateOrder]);
 
-	const incQty = () => {
-		setQty((prevQty) => prevQty + 1);
-	};
+	useEffect(() => {
+		fetchUser();
+		//fetchApiData();
+	}, []);
 
-	const decQty = () => {
-		setQty((prevQty) => {
-			if (prevQty - 1 < 1) return 1;
+	// Save selected pharmacy to local storage
+	useEffect(() => {
+		const data = window.localStorage.getItem('selectedPharmacy');
+		if (data !== null) setSelectedPharmacy(JSON.parse(data));
+	}, []);
 
-			return prevQty - 1;
-		});
-	};
+	useEffect(() => {
+		window.localStorage.setItem(
+			'selectedPharmacy',
+			JSON.stringify(selectedPharmacy)
+		);
+	}, [selectedPharmacy]);
+
+	// Save deliver option to local storage
+	useEffect(() => {
+		const data = window.localStorage.getItem('deliveryOption');
+		if (data !== null) setDeliveryOption(JSON.parse(data));
+	}, []);
+
+	useEffect(() => {
+		window.localStorage.setItem(
+			'deliveryOption',
+			JSON.stringify(deliveryOption)
+		);
+	}, [deliveryOption]);
+
+	// Save total order quantity to local storage
+	useEffect(() => {
+		const data = window.localStorage.getItem('totalQuantity');
+		if (data !== null) setTotalQuantity(JSON.parse(data));
+	}, []);
+
+	useEffect(() => {
+		window.localStorage.setItem('totalQuantity', JSON.stringify(totalQuantity));
+	}, [totalQuantity]);
+
+	// Save selected drugs order to local storage
+	useEffect(() => {
+		const data = window.localStorage.getItem('selectedDrugs');
+		if (data !== null) setSelectedDrugs(JSON.parse(data));
+	}, []);
+
+	useEffect(() => {
+		window.localStorage.setItem('selectedDrugs', JSON.stringify(selectedDrugs));
+	}, [selectedDrugs]);
+
+	// Save order to local storage
+	useEffect(() => {
+		const data = window.localStorage.getItem('order');
+		if (data !== null) setOrder(JSON.parse(data));
+	}, []);
+
+	useEffect(() => {
+		window.localStorage.setItem('order', JSON.stringify(order));
+	}, [order]);
+
+	// Save summary of order to local storage
+	useEffect(() => {
+		const data = window.localStorage.getItem('orderSummary');
+		if (data !== null) setOrderSummary(JSON.parse(data));
+	}, []);
+
+	useEffect(() => {
+		window.localStorage.setItem('orderSummary', JSON.stringify(orderSummary));
+	}, [orderSummary]);
+
+	//console.log('order summary: ', orderSummary);
+	//console.log('Placed order: ', placedOrder);
 
 	return (
 		<Context.Provider
@@ -279,14 +418,16 @@ export const StateContext = ({ children }) => {
 				value,
 				setValue,
 				selectedPharmacy,
+				address,
+				setAddress,
 				choosePharmacy,
 				deliveryOption,
 				setDeliveryOption,
 				selectedDrugs,
 				showCart,
 				setShowCart,
-				showOrder,
-				setShowOrder,
+				showPlacedOrder,
+				setShowPlacedOrder,
 				showProfile,
 				setShowProfile,
 				orders,
@@ -294,13 +435,14 @@ export const StateContext = ({ children }) => {
 				totalPrice,
 				totalQuantity,
 				qty,
-				incQty,
-				decQty,
 				onRemoveFromTable,
+				inc,
+				dec,
 				createSummary,
 				pushOrderData,
 				viewOrder,
 				orderSummary,
+				placedOrder,
 			}}>
 			{children}
 		</Context.Provider>

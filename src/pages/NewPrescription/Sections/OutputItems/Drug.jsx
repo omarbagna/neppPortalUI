@@ -72,7 +72,7 @@ const Drug = () => {
 				</div>
 
 				<div className="flex items-center w-full">
-					<Table data={selectedDrugs} columns={columns} />
+					<Table data={selectedDrugs} columns={columns} drug="yes" />
 				</div>
 
 				<InputBox

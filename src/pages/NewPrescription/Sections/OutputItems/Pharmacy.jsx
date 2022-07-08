@@ -89,6 +89,7 @@ const Pharmacy = () => {
 						data={pharmacies}
 						columns={columns}
 						pharmacyFilter={pharmacyFilter}
+						pharmacy="yes"
 					/>
 				</div>
 

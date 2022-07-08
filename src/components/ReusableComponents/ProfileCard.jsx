@@ -12,7 +12,9 @@ import Title from './Title';
 import { useStateContext } from '../../context/StateContext';
 
 const ProfileCard = ({ title, data, editable = false }) => {
-	const { setShowProfile, user } = useStateContext();
+	const { setShowProfile, user, address } = useStateContext();
+
+	console.log(user);
 
 	return (
 		<div className="bg-white shadow-lg rounded-md p-4 flex flex-col gap-5 justify-start w-full h-fit md:h-2/3 lg:h-full">
@@ -49,17 +51,17 @@ const ProfileCard = ({ title, data, editable = false }) => {
 							title={item.title}
 							subtext={
 								item.id === 1
-									? user[0].email
+									? user[0]?.email
 									: item.id === 2
-									? user[0].phone_number
+									? user[0]?.phone_number
 									: item.id === 3
-									? user[0].ghana_card
+									? user[0]?.ghana_card
 									: item.id === 4
-									? user[0]?.addresses[0]?.address_line1?.name
+									? user[0].addresses[0].address_line1.name
 									: item.id === 5
-									? user[0]?.addresses[1]?.address_line2?.name
+									? user[0].addresses[1].address_line2.name
 									: item.id === 6
-									? user[0]?.addresses[2]?.address_line3?.name
+									? user[0].addresses[2].address_line3.name
 									: item.subtext
 							}
 							email={item.id === 1 && true}

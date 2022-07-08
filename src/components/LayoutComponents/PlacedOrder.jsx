@@ -6,11 +6,11 @@ import { useStateContext } from '../../context/StateContext';
 import SubmitBtn from '../ReusableComponents/SubmitBtn';
 import Title from '../ReusableComponents/Title';
 
-const Order = () => {
-	const { orderSummary, setShowOrder } = useStateContext();
+const PlacedOrder = () => {
+	const { placedOrder, setShowPlacedOrder } = useStateContext();
 
 	return (
-		<div onClick={() => setShowOrder(false)} className="cart-wrapper">
+		<div onClick={() => setShowPlacedOrder(false)} className="cart-wrapper">
 			<div
 				onClick={(e) => {
 					e.stopPropagation();
@@ -19,12 +19,12 @@ const Order = () => {
 				<SubmitBtn
 					name="Close"
 					type="dull"
-					onClick={() => setShowOrder(false)}
+					onClick={() => setShowPlacedOrder(false)}
 				/>
 
 				<Title
 					size="text-xl sm:text-4xl"
-					title={`Order Number: #${orderSummary.orderNumber}`}
+					title={`Order Number: #${placedOrder.orderNumber}`}
 				/>
 
 				<div className="flex flex-col w-full h-full gap-5 md:gap-8">
@@ -35,16 +35,16 @@ const Order = () => {
 							</h3>
 							<p
 								className={
-									orderSummary.status === 'delivered'
+									placedOrder.status === 'delivered'
 										? ' text-bgTwo capitalize font-medium text-lg sm:text-xl'
-										: orderSummary.status === 'pending'
+										: placedOrder.status === 'pending'
 										? 'text-bgThree capitalize font-medium text-lg sm:text-xl'
-										: orderSummary.status === 'declined'
+										: placedOrder.status === 'declined'
 										? 'text-bgOne capitalize font-medium text-lg sm:text-xl'
-										: orderSummary.status === 'processing' &&
+										: placedOrder.status === 'processing' &&
 										  'text-bgFour capitalize font-medium text-lg sm:text-xl'
 								}>
-								{orderSummary.status}
+								{placedOrder.status}
 							</p>
 						</div>
 
@@ -53,7 +53,7 @@ const Order = () => {
 								Order Date:
 							</h3>
 							<p className="capitalize font-medium text-lg sm:text-xl">
-								{orderSummary.date}
+								{placedOrder.date}
 							</p>
 						</div>
 
@@ -62,7 +62,7 @@ const Order = () => {
 								Selected Pharmacy:
 							</h3>
 							<p className="capitalize font-medium text-lg sm:text-xl border-b-2 border-b-bgTwo">
-								{orderSummary.pharmacy}
+								{placedOrder.pharmacy}
 							</p>
 						</div>
 
@@ -71,7 +71,7 @@ const Order = () => {
 								Delivery or Pick-up:
 							</h3>
 							<p className="capitalize font-medium text-lg sm:text-xl">
-								{orderSummary.deliveryOption}
+								{placedOrder.deliveryOption}
 							</p>
 						</div>
 
@@ -89,7 +89,7 @@ const Order = () => {
 								Orders:
 							</h3>
 							<div className="flex flex-col gap-3 w-2/3 h-28 overflow-y-scroll">
-								{orderSummary.orders.map((order, index) => (
+								{placedOrder.orders.map((order, index) => (
 									<p
 										key={index}
 										className="capitalize font-medium text-lg sm:text-xl">
@@ -104,7 +104,7 @@ const Order = () => {
 								Total Items:
 							</h3>
 							<p className="font-medium text-lg sm:text-xl">
-								{orderSummary.totalItems}
+								{placedOrder.totalItems}
 							</p>
 						</div>
 
@@ -113,11 +113,11 @@ const Order = () => {
 								Total Price GH¢
 							</h3>
 							<p className="font-medium text-lg sm:text-xl">
-								{orderSummary.totalPrice}
+								{placedOrder.totalPrice}
 							</p>
 						</div>
 					</div>
-					{orderSummary.status === 'pending' ? (
+					{placedOrder.status === 'pending' ? (
 						<div className="flex gap-8 w-full items-end pb-28 lg:pb-2 justify-around md:justify-end">
 							<SubmitBtn name="CHANGE PHARMACY" type="dull" />
 							<SubmitBtn name="MAKE PAYMENT" />
@@ -131,4 +131,4 @@ const Order = () => {
 	);
 };
 
-export default Order;
+export default PlacedOrder;
